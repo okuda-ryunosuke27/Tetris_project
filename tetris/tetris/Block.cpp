@@ -143,6 +143,54 @@ int Block_Initialize(void)
 		BLOCK_SIZE, BlockImage);
 
 	//SEの読込み
+	SoundEffect[0] = LoadSoundMem("sounds/SE3.mp3");
+	SoundEffect[1] = LoadSoundMem("sounds/SE4.mp3");
+	SoundEffect[2] = LoadSoundMem("sounds/SE5.mp3");
 
+	//音量の調整
+	ChangeVolumeSoundMem(150, SoundEffect[0]);
+	ChangeVolumeSoundMem(150, SoundEffect[1]);
+	ChangeVolumeSoundMem(150, SoundEffect[2]);
+
+	//フィールドの生成
+	create_field();
+
+	//ブロック生成
+	create_block();
+	create_block();
+
+	//待機時間の初期化
+	WaitTime = 0;
+	//ストックフラグの初期化
+	Stock_Flg = FALSE;
+	//生成フラグの初期化
+	Generate_Flg = TRUE;
+	//消したラインの数の初期化
+	DeleteLine = 0;
+
+	//エラーチェック
+	for (int i = 0; i < 3; i++)
+	{
+		if (SoundEffect[i] == -1)
+		{
+			ret = -1;
+			break;
+		}
+	}
+
+	return ret;
 }
 
+/****************************
+ブロック機能：更新処理
+引数		：なし
+戻り値		：なし
+****************************/
+void Block_Updata(void)
+{
+	//ブロックの移動処理
+	move_block();
+
+	//ブロックのストック
+	if(())
+}

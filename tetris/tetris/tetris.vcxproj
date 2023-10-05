@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="InputControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
