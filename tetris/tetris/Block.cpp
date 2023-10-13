@@ -566,7 +566,29 @@ void check_line(void)
 	{
 		for ( j = 0; j < FIELD_WIDTH; j++)
 		{
-			//
+			//行の途中が空いているか？
+			if (Field[i][j] == E_BLOCK_EMPTY)
+			{
+				break;
+			}
 		}
+	}
+
+	//一列揃っていたら、カウントを増やし、1段下げる
+	if (j >= FIELD_WIDTH)
+	{
+		//カウントを増加
+		DeleteLine++;
+
+		//1段下げる
+		for ( k = i; k > 0; k--)
+		{
+			for ( j = 1; j < FIELD_WIDTH; j++)
+			{
+				Field[k][j] = Field[k - 1][j];
+			}
+		}
+
+		PlaySoundMem(SoundEffect[0], DX_PLAYTYPE_BACK, TRUE);
 	}
 }
