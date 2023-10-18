@@ -14,7 +14,7 @@
 プロトタイプ宣言
 ****************************/
 int RankingScene_Initialize(void);
-void RankingScene_Updata(void);
+void RankingScene_Update(void);
 void RankingScene_Draw(void);
 
 void Set_RankingMode(int mode);

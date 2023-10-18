@@ -186,7 +186,7 @@ int Block_Initialize(void)
 引数		：なし
 戻り値		：なし
 ****************************/
-void Block_Updata(void)
+void Block_Update(void)
 {
 	//ブロックの移動処理
 	move_block();

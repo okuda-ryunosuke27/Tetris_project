@@ -39,7 +39,7 @@ int TitleScene_Initialize(void)
 
 	cursor_number = 0;
 
-	sounds[E_TITLE_BGM] = LoadSoundMem("sounds/BGM41.ogg");
+	sounds[E_TITLE_BGM] = LoadSoundMem("sounds/BGM041.ogg");
 	sounds[E_TITLE_SE_CURSOR] = LoadSoundMem("sounds/SE1.mp3");
 	sounds[E_TITLE_SE_SELECT] = LoadSoundMem("sounds/SE2.mp3");
 
@@ -64,7 +64,7 @@ int TitleScene_Initialize(void)
 引　数：なし
 戻り値：なし
 ****************************/
-void TitleScene_Updata(void)
+void TitleScene_Update(void)
 {
 	//BGMが流れない時に再生
 	if (CheckSoundMem(sounds[E_TITLE_BGM]) != TRUE)
