@@ -348,7 +348,7 @@ void create_block(void)
 		for ( j = 0; j < BLOCK_TROUT_SIZE; j++)
 		{
 			DropBlock[i][j] = Next[i][j];
-			Next[i][j] = (BLOCK_STATE) C_BLOCK_TABLE[block_type][i][j];
+			Next[i][j] = (BLOCK_STATE)C_BLOCK_TABLE[block_type][i][j];
 		}
 	}
 
