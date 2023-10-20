@@ -230,7 +230,10 @@ void Block_Update(void)
 			//ブロック固定
 			lock_block(DropBlock_X, DropBlock_Y);
 			//ブロックの消去とブロックを下ろす処理
-			check_line();
+			/*for (int i = 0; i < 21; i++)
+			{*/
+				check_line();
+		/*	}*/
 			//新しいブロックの生成
 			create_block();
 		}
@@ -562,9 +565,9 @@ void check_line(void)
 {
 	int i, j, k;		//ループカウンタ
 
-	for ( i = 0; i < FIELD_HEIGHT; i++)
+	for (i = 0; i < FIELD_HEIGHT - 1; i++)
 	{
-		for ( j = 0; j < FIELD_WIDTH; j++)
+		for (j = 1; j < FIELD_WIDTH; j++)
 		{
 			//行の途中が空いているか？
 			if (Field[i][j] == E_BLOCK_EMPTY)
@@ -581,9 +584,9 @@ void check_line(void)
 		DeleteLine++;
 
 		//1段下げる
-		for ( k = i; k > 0; k--)
+		for (k = i; k > 0; k--)
 		{
-			for ( j = 1; j < FIELD_WIDTH; j++)
+			for (j = 1; j < FIELD_WIDTH; j++)
 			{
 				Field[k][j] = Field[k - 1][j];
 			}
@@ -591,4 +594,5 @@ void check_line(void)
 
 		PlaySoundMem(SoundEffect[0], DX_PLAYTYPE_BACK, TRUE);
 	}
+
 }
