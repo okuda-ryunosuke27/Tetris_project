@@ -385,7 +385,7 @@ void move_block(void)
 	//右入力時
 	if (GetButtonDown(XINPUT_BUTTON_DPAD_RIGHT))
 	{
-		if (check_overlap(DropBlock_X + 1, DropBlock_Y - 1) == TRUE)
+		if (check_overlap(DropBlock_X + 1, DropBlock_Y) == TRUE)
 		{
 			DropBlock_X++;
 		}
@@ -394,7 +394,7 @@ void move_block(void)
 	//上入力時(ハードドロップ処理
 	if (GetButtonDown(XINPUT_BUTTON_DPAD_UP))
 	{
-		if (check_overlap(DropBlock_X, DropBlock_Y + 1) == TRUE)
+		while(check_overlap(DropBlock_X, DropBlock_Y + 1) == TRUE)
 		{
 			DropBlock_Y++;
 		}
