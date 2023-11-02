@@ -41,7 +41,7 @@ void SceneManager_Initialize(GAME_MODE mode)
 			read_error = GameMainScene_Initialize();	//ゲームメイン画面の初期化
 			break;
 		case E_RANKING:
-			if (game_mode == E_RANKING)
+			if (game_mode == E_GAMEMAIN)
 			{
 				Set_RankingMode(RANKING_INPUT_MODE);	//ランキング入力モードで起動
 				Set_RankingScore(Get_Score());			//スコア取得

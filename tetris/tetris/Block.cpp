@@ -230,10 +230,10 @@ void Block_Update(void)
 			//ブロック固定
 			lock_block(DropBlock_X, DropBlock_Y);
 			//ブロックの消去とブロックを下ろす処理
-			/*for (int i = 0; i < 21; i++)
-			{*/
+			for (int i = 0; i < 21; i++)
+			{
 				check_line();
-		/*	}*/
+			}
 			//新しいブロックの生成
 			create_block();
 		}

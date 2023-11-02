@@ -111,8 +111,7 @@ void RankingScene_Draw(void)
 		default:
 			for ( i = 0; i < RANKING_MAX; i++)
 			{
-				DrawFormatString(20, 10 + (i * 25), 0xFFFFFF, "%2d, %10s, %10d",
-					Ranking_Data[i].rank, Ranking_Data[i].name, Ranking_Data[i].score);
+				DrawFormatString(20, 10 + (i * 25), 0xFFFFFF, "%2d, %10s, %10d", Ranking_Data[i].rank, Ranking_Data[i].name, Ranking_Data[i].score);
 			}
 			break;
 	}
@@ -267,7 +266,7 @@ void ranking_input_name(void)
 	{
 		if (Cursor.y < 4)
 		{
-			Cursor.y;;;
+			Cursor.y++;
 		}
 	}
 
