@@ -188,8 +188,7 @@ void file_write(void)
 	{
 		for ( i = 0; i < RANKING_MAX; i++)
 		{
-			fprintf(fp, "%2d,%[^,],%10d\n", Ranking_Data[i].rank,
-				Ranking_Data[i].name, Ranking_Data[i].score);
+			fprintf(fp, "%2d,%[^,],%10d\n", Ranking_Data[i].rank, Ranking_Data[i].name, Ranking_Data[i].score);
 		}
 		fclose(fp);
 	}
@@ -300,7 +299,13 @@ void ranking_input_name(void)
 				DispMode = RANKING_DISP_MODE;
 				ranking_sort();
 			}
+			
 		}
+	}
+	if (GetButtonDown(XINPUT_BUTTON_START) == TRUE)
+	{
+		DispMode = RANKING_DISP_MODE;
+		ranking_sort();
 	}
 }
 

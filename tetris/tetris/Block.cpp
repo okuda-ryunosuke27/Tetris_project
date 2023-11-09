@@ -283,6 +283,15 @@ void Block_Draw(void)
 			DrawGraph((DropBlock_X + j) * BLOCK_SIZE, (DropBlock_Y + i) * BLOCK_SIZE, BlockImage[DropBlock[i][j]], TRUE);
 		}
 	}
+
+	for (i = 0; i < FIELD_HEIGHT; i++)
+	{
+		for (j = 0; j < FIELD_WIDTH; j++)
+		{
+			DrawFormatString(j * BLOCK_SIZE, i * BLOCK_SIZE, 0xFFFFFF, "%d", (Field[i][j]));
+
+		}
+	}
 }
 
 /****************************
@@ -575,24 +584,25 @@ void check_line(void)
 				break;
 			}
 		}
-	}
 
-	//一列揃っていたら、カウントを増やし、1段下げる
-	if (j >= FIELD_WIDTH)
-	{
-		//カウントを増加
-		DeleteLine++;
 
-		//1段下げる
-		for (k = i; k > 0; k--)
+		//一列揃っていたら、カウントを増やし、1段下げる
+		if (j >= FIELD_WIDTH)
 		{
-			for (j = 1; j < FIELD_WIDTH; j++)
-			{
-				Field[k][j] = Field[k - 1][j];
-			}
-		}
+			//カウントを増加
+			DeleteLine++;
 
-		PlaySoundMem(SoundEffect[0], DX_PLAYTYPE_BACK, TRUE);
+			//1段下げる
+			for (k = i; k > 0; k--)
+			{
+				for (j = 1; j < FIELD_WIDTH; j++)
+				{
+					Field[k][j] = Field[k - 1][j];
+				}
+			}
+
+			PlaySoundMem(SoundEffect[0], DX_PLAYTYPE_BACK, TRUE);
+		}
 	}
 
 }
