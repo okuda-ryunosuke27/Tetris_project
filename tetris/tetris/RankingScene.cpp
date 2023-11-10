@@ -178,7 +178,7 @@ void file_write(void)
 	int i;
 
 	OutputDebugString("ƒtƒ@ƒCƒ‹‚ğ‘‚«‚İ‚Ü‚·");
-	fopen_s(&fp, RANKING_FILE, "w");
+	fopen_s(&fp, RANKING_FILE, "w+");
 
 	if (fp == NULL)
 	{
