@@ -192,6 +192,11 @@ void file_write(void)
 			fprintf(fp, "%2d,%s,%10d\n", Ranking_Data[i].rank, Ranking_Data[i].name, Ranking_Data[i].score);
 		}
 		fclose(fp);
+		for (int i = 0; New_Score.name[i] <= '\0'; i++)
+		{
+			New_Score.name[i] = 0;
+		}
+		
 	}
 }
 
@@ -301,6 +306,19 @@ void ranking_input_name(void)
 				ranking_sort();
 			}
 			
+		}
+	}
+	if (GetButtonDown(XINPUT_BUTTON_A) == TRUE)
+	{
+		if (Cursor.x >= 1)
+		{
+			name_num--;
+			New_Score.name[name_num] = 0;
+		}
+		else if(Cursor.x == 0)
+		{
+			name_num = 0;
+			New_Score.name[name_num] = 0;
 		}
 	}
 	if (GetButtonDown(XINPUT_BUTTON_START) == TRUE)
