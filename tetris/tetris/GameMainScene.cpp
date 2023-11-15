@@ -19,6 +19,7 @@ int BackGround_sound;		//BGM
 int GameOver_sound;			//ゲームオーバーSE
 int Score;					//スコア
 int Level;
+int LevelScore[5];
 
 /****************************
 プロトタイプ宣言
@@ -40,6 +41,11 @@ int GameMainScene_Initialize(void)
 	GameOver_sound = LoadSoundMem("sounds/GameOver.mp3");
 
 	Level = 1;
+	
+	for (int i = 1; i < 5; i++)
+	{
+		LevelScore[i - 1] = (50 * 10) * i;
+	}
 
 	//エラーチェック
 	if (BackGround_image == -1)
@@ -74,10 +80,14 @@ void GameMainScene_Update(void)
 	Score = Get_Line() * 50;
 
 	//レベルを考えてる。
-	if(Score / 50 >= 1)
+	for (int i = 0; i < 5; i++)
 	{
-		Level += 1;
+		if (Score == LevelScore[i])
+		{
+			Level += 1;
+		}
 	}
+	
 	
 
 
