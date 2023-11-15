@@ -62,6 +62,10 @@ int RankingScene_Initialize(void)
 			Cursor.x = 0;
 			Cursor.y = 0;
 			name_num = 0;
+			for (int i = 0; New_Score.name[i] <= '\0'; i++)
+			{
+				New_Score.name[i] = 0;
+			}
 			break;
 		case RANKING_DISP_MODE:
 		default:
@@ -192,10 +196,7 @@ void file_write(void)
 			fprintf(fp, "%2d,%s,%10d\n", Ranking_Data[i].rank, Ranking_Data[i].name, Ranking_Data[i].score);
 		}
 		fclose(fp);
-		for (int i = 0; New_Score.name[i] <= '\0'; i++)
-		{
-			New_Score.name[i] = 0;
-		}
+		
 		
 	}
 }
@@ -300,25 +301,12 @@ void ranking_input_name(void)
 				name_num--;
 				New_Score.name[name_num] = '\0';
 			}
-			else
+			else//10以上
 			{
 				DispMode = RANKING_DISP_MODE;
 				ranking_sort();
 			}
 			
-		}
-	}
-	if (GetButtonDown(XINPUT_BUTTON_A) == TRUE)
-	{
-		if (Cursor.x >= 1)
-		{
-			name_num--;
-			New_Score.name[name_num] = 0;
-		}
-		else if(Cursor.x == 0)
-		{
-			name_num = 0;
-			New_Score.name[name_num] = 0;
 		}
 	}
 	if (GetButtonDown(XINPUT_BUTTON_START) == TRUE)
@@ -351,12 +339,15 @@ void ranking_input_name_draw(void)
 	{
 		DrawFormatString((i % 13 * 50) + 300, (i / 13 * 50) + 530, 0xFFFFFF, "%-3c", '0' + i);
 	}
+	SetFontSize(30);
+	DrawFormatString(800, 530, 0xFFFFFF, "削");
+	DrawFormatString(850, 530, 0xFFFFFF, "決");
+	
+	SetFontSize(40);
 	DrawFormatString(300, 220, 0xFFFFFF, ">%s", New_Score.name);
-
+	
 	SetFontSize(20);
 
 	//選択している文字をフォーカスしている
-	DrawBox((Cursor.x * 50) + 290, (Cursor.y * 50) + 330,
-		(Cursor.x * 50) + 330, (Cursor.y * 50) + 370,
-		0xFFFFFF, FALSE);
+	DrawBox((Cursor.x * 50) + 290, (Cursor.y * 50) + 330, (Cursor.x * 50) + 330, (Cursor.y * 50) + 370, 0xFFFFFF, FALSE);
 }
