@@ -1,6 +1,7 @@
 #include "Block.h"
 #include "DxLib.h"
 #include "InputControl.h"
+#include "GameMainScene.h"
 
 /****************************
 マクロ定義
@@ -127,6 +128,7 @@ void turn_block(int clockwise);		//ブロック回転処理
 int check_overlap(int x, int y);	//範囲外チェック処理
 void lock_block(int x, int y);		//着地したブロックを固定済みに変更する処理
 void check_line(void);				//部ロ億の横一列確認処理
+void conv_block(void);				//ブロックを正位置にする処理
 
 /****************************
 ブロック機能：初期化処理
@@ -136,7 +138,7 @@ void check_line(void);				//部ロ億の横一列確認処理
 int Block_Initialize(void)
 {
 	int ret = 0;	//戻り値
-	int i = 0;
+	int i, j;
 
 	//ブロック画像の読込み
 	ret = LoadDivGraph("images/block.png", E_BLOCK_IMAGE_MAX, 10, 1, BLOCK_SIZE,
@@ -167,6 +169,15 @@ int Block_Initialize(void)
 	Generate_Flg = TRUE;
 	//消したラインの数の初期化
 	DeleteLine = 0;
+
+
+	for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+	{
+		for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+		{
+			Stock[i][j] = E_BLOCK_EMPTY;
+		}
+	}
 
 	//エラーチェック
 	for (int i = 0; i < 3; i++)
@@ -219,7 +230,7 @@ void Block_Update(void)
 
 	//落下処理
 	WaitTime++;			//カウンタの更新
-	if (WaitTime > DROP_SPEED)
+	if (WaitTime > DROP_SPEED - ((Get_Level() -1) - 5))
 	{
 		if (check_overlap(DropBlock_X, DropBlock_Y + 1) == TRUE)
 		{
@@ -230,10 +241,7 @@ void Block_Update(void)
 			//ブロック固定
 			lock_block(DropBlock_X, DropBlock_Y);
 			//ブロックの消去とブロックを下ろす処理
-			for (int i = 0; i < 21; i++)
-			{
-				check_line();
-			}
+			check_line();
 			//新しいブロックの生成
 			create_block();
 		}
@@ -429,6 +437,9 @@ void change_block(void)
 	BLOCK_STATE temp[BLOCK_TROUT_SIZE][BLOCK_TROUT_SIZE] = { E_BLOCK_EMPTY };		//退避領域
 	int i, j;
 
+	//ブロックを正位置にしている。
+	conv_block();
+
 	//ストック先が空かどうか確認
 	if (Stock_Flg == TRUE)
 	{
@@ -591,7 +602,6 @@ void check_line(void)
 		{
 			//カウントを増加
 			DeleteLine++;
-
 			//1段下げる
 			for (k = i; k > 0; k--)
 			{
@@ -603,6 +613,92 @@ void check_line(void)
 
 			PlaySoundMem(SoundEffect[0], DX_PLAYTYPE_BACK, TRUE);
 		}
+	}
+
+}
+
+void conv_block(void)
+{
+	int i, j, tmp = 0;
+
+	for ( i = 0; i < BLOCK_TROUT_SIZE; i++)
+	{
+		for ( j = 0; j < BLOCK_TROUT_SIZE; j++)
+		{
+			if (DropBlock[i][j] >= 1)
+			{
+				tmp = DropBlock[i][j];
+			}
+		}
+	}
+	
+	switch (tmp)
+	{
+		case E_BLOCK_LIGHT_BLUE:
+			for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+			{
+				for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+				{
+					DropBlock[i][j] = (BLOCK_STATE) C_BLOCK_TABLE[E_BLOCK_LIGHT_BLUE - 1][i][j];
+				}
+			}
+			break;
+		case E_BLOCK_YELLOW_GREEN:
+			for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+			{
+				for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+				{
+					DropBlock[i][j] = (BLOCK_STATE) C_BLOCK_TABLE[E_BLOCK_YELLOW_GREEN - 1][i][j];
+				}
+			}
+			break;
+		case E_BLOCK_YELLOW:
+			for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+			{
+				for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+				{
+					DropBlock[i][j] = (BLOCK_STATE) C_BLOCK_TABLE[E_BLOCK_YELLOW - 1][i][j];
+				}
+			}
+			break;
+		case E_BLOCK_ORANGE:
+			for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+			{
+				for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+				{
+					DropBlock[i][j] = (BLOCK_STATE) C_BLOCK_TABLE[E_BLOCK_ORANGE - 1][i][j];
+				}
+			}
+			break;
+		case E_BLOCK_BLUE:
+			for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+			{
+				for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+				{
+					DropBlock[i][j] = (BLOCK_STATE) C_BLOCK_TABLE[E_BLOCK_BLUE - 1][i][j];
+				}
+			}
+			break;
+		case E_BLOCK_PINK:
+			for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+			{
+				for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+				{
+					DropBlock[i][j] = (BLOCK_STATE) C_BLOCK_TABLE[E_BLOCK_PINK - 1][i][j];
+				}
+			}
+			break;
+		case E_BLOCK_RED:
+			for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+			{
+				for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+				{
+					DropBlock[i][j] = (BLOCK_STATE) C_BLOCK_TABLE[E_BLOCK_RED - 1][i][j];
+				}
+			}
+			break;
+		default:
+			break;
 	}
 
 }

@@ -62,9 +62,9 @@ int RankingScene_Initialize(void)
 			Cursor.x = 0;
 			Cursor.y = 0;
 			name_num = 0;
-			for (int i = 0; New_Score.name[i] <= '\0'; i++)
+			for (int i = 0; New_Score.name[i] != '\0'; i++)
 			{
-				New_Score.name[i] = 0;
+				New_Score.name[i] = '\0';
 			}
 			break;
 		case RANKING_DISP_MODE:

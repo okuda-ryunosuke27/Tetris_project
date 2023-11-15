@@ -18,10 +18,12 @@ int BackGround_image;		//背景画像イメージ
 int BackGround_sound;		//BGM
 int GameOver_sound;			//ゲームオーバーSE
 int Score;					//スコア
+int Level;
 
 /****************************
 プロトタイプ宣言
 ****************************/
+void Score_Draw(void);
 
 /****************************
 ゲームメイン画面：初期化処理
@@ -36,6 +38,8 @@ int GameMainScene_Initialize(void)
 	BackGround_image = LoadGraph("images/stage.png");
 	BackGround_sound = LoadSoundMem("sounds/BGM017.ogg");
 	GameOver_sound = LoadSoundMem("sounds/GameOver.mp3");
+
+	Level = 1;
 
 	//エラーチェック
 	if (BackGround_image == -1)
@@ -69,6 +73,14 @@ void GameMainScene_Update(void)
 
 	Score = Get_Line() * 50;
 
+	//レベルを考えてる。
+	if(Score / 50 >= 1)
+	{
+		Level += 1;
+	}
+	
+
+
 	//生成できなくなったら
 	if (Get_GenerateFlg() != TRUE)
 	{
@@ -93,7 +105,11 @@ void GameMainScene_Draw(void)
 	SetFontSize(100);
 
 	//スコアの描画
-	DrawFormatString(800, 100, 0xFFFFFF, "%d", Score);
+	Score_Draw();
+	
+	//レベルの描画
+	DrawFormatString(900, 250, 0xFFFFFF, "%d", Level);
+
 	SetFontSize(20);
 }
 
@@ -105,4 +121,29 @@ void GameMainScene_Draw(void)
 int Get_Score(void)
 {
 	return Score;
+}
+
+int Get_Level(void)
+{
+	return Level;
+}
+
+void Score_Draw(void)
+{
+	if (Score >= 1000)
+	{
+		DrawFormatString(750, 100, 0xFFFFFF, "%d", Score);
+	}
+	else if(Score >= 100)
+	{
+		DrawFormatString(800, 100, 0xFFFFFF, "%d", Score);
+	}
+	else if(Score >= 50)
+	{
+		DrawFormatString(850, 100, 0xFFFFFF, "%d", Score);
+	}
+	else
+	{
+		DrawFormatString(900, 100, 0xFFFFFF, "%d", Score);
+	}
 }
