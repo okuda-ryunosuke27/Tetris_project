@@ -80,13 +80,13 @@ void GameMainScene_Update(void)
 	Score = Get_Line() * 50;
 
 	//ƒŒƒxƒ‹‚ğl‚¦‚Ä‚éB
-	for (int i = 0; i < 5; i++)
+	/*for (int i = 0; i < 5; i++)
 	{
 		if (Score == LevelScore[i])
 		{
 			Level += 1;
 		}
-	}
+	}*/
 	
 	
 
