@@ -19,7 +19,7 @@ int BackGround_sound;		//BGM
 int GameOver_sound;			//ゲームオーバーSE
 int Score;					//スコア
 int Level;
-int LevelScore[5];
+int LevelScore[4] = { 500,1500,3000,5000 };
 
 /****************************
 プロトタイプ宣言
@@ -42,10 +42,6 @@ int GameMainScene_Initialize(void)
 
 	Level = 1;
 	
-	for (int i = 1; i < 5; i++)
-	{
-		LevelScore[i - 1] = (50 * 10) * i;
-	}
 
 	//エラーチェック
 	if (BackGround_image == -1)
@@ -80,13 +76,27 @@ void GameMainScene_Update(void)
 	Score = Get_Line() * 50;
 
 	//レベルを考えてる。
-	/*for (int i = 0; i < 5; i++)
+	
+	if (Score <= LevelScore[0])
 	{
-		if (Score == LevelScore[i])
-		{
-			Level += 1;
-		}
-	}*/
+		Level = 2;
+	}
+	else if (Score <= LevelScore[1])
+	{
+		Level = 3;
+	}
+	else if (Score <= LevelScore[2])
+	{
+		Level = 4;
+	}
+	else if (Score <= LevelScore[3])
+	{
+		Level = 5;
+	}
+	else
+	{
+		Level = 1;
+	}
 	
 	
 
@@ -135,7 +145,7 @@ int Get_Score(void)
 
 int Get_Level(void)
 {
-	return Level;
+	return -Level;
 }
 
 void Score_Draw(void)

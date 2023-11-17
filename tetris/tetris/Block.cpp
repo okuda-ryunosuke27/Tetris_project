@@ -230,7 +230,7 @@ void Block_Update(void)
 
 	//落下処理
 	WaitTime++;			//カウンタの更新
-	if (WaitTime > DROP_SPEED - ((Get_Level() -1) - 5))
+	if (WaitTime > DROP_SPEED + (Get_Level() * 5))
 	{
 		if (check_overlap(DropBlock_X, DropBlock_Y + 1) == TRUE)
 		{
