@@ -79,23 +79,23 @@ void GameMainScene_Update(void)
 	
 	if (Score <= LevelScore[0])
 	{
-		Level = 2;
+		Level = 1;
 	}
 	else if (Score <= LevelScore[1])
 	{
-		Level = 3;
+		Level = 2;
 	}
 	else if (Score <= LevelScore[2])
 	{
-		Level = 4;
+		Level = 3;
 	}
 	else if (Score <= LevelScore[3])
 	{
-		Level = 5;
+		Level = 4;
 	}
 	else
 	{
-		Level = 1;
+		Level = 5;
 	}
 	
 	
