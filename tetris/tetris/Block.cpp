@@ -230,7 +230,7 @@ void Block_Update(void)
 
 	//落下処理
 	WaitTime++;			//カウンタの更新
-	if (WaitTime > DROP_SPEED + (Get_Level() * 5))
+	if (WaitTime > DROP_SPEED + (Get_Level() * 10))
 	{
 		if (check_overlap(DropBlock_X, DropBlock_Y + 1) == TRUE)
 		{
@@ -292,14 +292,15 @@ void Block_Draw(void)
 		}
 	}
 
-	for (i = 0; i < FIELD_HEIGHT; i++)
+	/*for (i = 0; i < FIELD_HEIGHT; i++)
 	{
 		for (j = 0; j < FIELD_WIDTH; j++)
 		{
 			DrawFormatString(j * BLOCK_SIZE, i * BLOCK_SIZE, 0xFFFFFF, "%d", (Field[i][j]));
 
 		}
-	}
+	}*/
+	//DrawFormatString(500, 500, 0xFFFFFF, "%d", WaitTime);
 }
 
 /****************************
