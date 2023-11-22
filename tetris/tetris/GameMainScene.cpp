@@ -67,13 +67,23 @@ int GameMainScene_Initialize(void)
 ****************************/
 void GameMainScene_Update(void)
 {
+	int delete_line;
 	//BGMの再生
 	PlaySoundMem(BackGround_sound, DX_PLAYTYPE_LOOP, FALSE);
 
 	//ブロック機能の更新
 	Block_Update();
 
-	Score = Get_Line() * 50;
+	delete_line = Get_Line();
+
+	if (delete_line == 4)
+	{
+		Score += delete_line * 50 * 2;
+	}
+	else
+	{
+		Score += delete_line * 50;
+	}
 
 	//レベルを考えてる。
 	

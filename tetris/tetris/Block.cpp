@@ -201,6 +201,7 @@ void Block_Update(void)
 {
 	//ブロックの移動処理
 	move_block();
+	check_line();
 
 	//ブロックのストック
 	if ((GetButtonDown(XINPUT_BUTTON_LEFT_SHOULDER) == TRUE) ||
@@ -585,6 +586,7 @@ void lock_block(int x, int y)
 void check_line(void)
 {
 	int i, j, k;		//ループカウンタ
+	DeleteLine = 0;
 
 	for (i = 0; i < FIELD_HEIGHT - 1; i++)
 	{
