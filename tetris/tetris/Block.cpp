@@ -117,8 +117,10 @@ int Generate_Flg;											//生成フラグ
 int DeleteLine;												//消したラインの数
 int SoundEffect[3];											//SE
 int a;
-float bom1X, bom2X;
-float bom1Y, bom2Y;
+float Bom1X, Bom2X;
+float Bom1Y, Bom2Y;
+int Bom;
+int Bomflg;
 
 /****************************
 プロトタイプ宣言
@@ -130,10 +132,10 @@ void change_block(void);			//ストック交換処理
 void turn_block(int clockwise);		//ブロック回転処理
 int check_overlap(int x, int y);	//範囲外チェック処理
 void lock_block(int x, int y);		//着地したブロックを固定済みに変更する処理
-void check_line(void);				//部ロ億の横一列確認処理
+void check_line(void);				//ブロックの横一列確認処理
 void conv_block(void);				//ブロックを正位置にする処理
 void move_box(void);				//ボムの範囲移動
-
+void bom_line(void);
 /****************************
 ブロック機能：初期化処理
 引数		：なし
@@ -176,11 +178,15 @@ int Block_Initialize(void)
 
 	a = 0;
 	//ボムをする範囲の左上
-	bom1X = 36.f;
-	bom1Y = 684.f;
+	Bom1X = 36.f;
+	Bom1Y = 684.f;
 	//ボムをする範囲の右下
-	bom2X = 396.f;
-	bom2Y = 720.f;
+	Bom2X = 396.f;
+	Bom2Y = 720.f;
+	//ボムの所持数
+	Bom = 3;
+	//ボムのフラグ
+	Bomflg = 0;
 
 	for (i = 0; i < BLOCK_TROUT_SIZE; i++)
 	{
@@ -268,6 +274,12 @@ void Block_Update(void)
 	else
 	{
 		move_box();
+		if (GetButtonDown(XINPUT_BUTTON_B) == TRUE)
+		{
+			//Bom--;
+			Bomflg = 1;
+			bom_line();
+		}
 		if (GetButtonDown(XINPUT_BUTTON_A) == TRUE)
 		{
 			a = 0;
@@ -285,7 +297,7 @@ void Block_Draw(void)
 	int i, j;			//ループカウンタ
 	if (a == 1)
 	{
-		DrawBoxAA(bom1X, bom1Y, bom2X, bom2Y, 0xff4500, FALSE,5);
+		DrawBoxAA(Bom1X, Bom1Y, Bom2X, Bom2Y, 0xff4500, FALSE,5);
 	}
 	//フィールドのブロックを描画
 	for (i = 0; i < FIELD_HEIGHT; i++)
@@ -750,14 +762,48 @@ void move_box(void)
 	//範囲上に移動
 	if (GetButtonDown(XINPUT_BUTTON_DPAD_UP))
 	{
-		bom1Y -= 36.f;
-		bom2Y -= 36.f;
+		Bom1Y -= 36.f;
+		Bom2Y -= 36.f;
 	}
 
 	//範囲下に移動
 	if (GetButtonDown(XINPUT_BUTTON_DPAD_DOWN))
 	{
-		bom1Y += 36.f;
-		bom2Y += 36.f;
+		Bom1Y += 36.f;
+		Bom2Y += 36.f;
 	}
+}
+
+/****************************
+ブロック機能：横一列を爆発させる。
+引数：なし
+戻り値：なし
+****************************/
+void bom_line(void)
+{
+	int i, j, k;
+	int height = 0;
+
+	height = Bom1Y / 36;
+
+	for (i = 0; i < FIELD_HEIGHT - 1; i++)
+	{
+		for (j = 1; j < FIELD_WIDTH - 1; j++)
+		{
+			if (Bomflg == TRUE)
+			{
+				Field[height][j] = E_BLOCK_EMPTY;
+			}
+		}
+
+	}
+	//1段下げる
+	for (k = i; k > 0; k--)
+	{
+		for (j = 1; j < FIELD_WIDTH; j++)
+		{
+			Field[k][j] = Field[k - 1][j];
+		}
+	}
+
 }
