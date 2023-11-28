@@ -116,6 +116,9 @@ int Stock_Flg;												//ストックフラグ
 int Generate_Flg;											//生成フラグ
 int DeleteLine;												//消したラインの数
 int SoundEffect[3];											//SE
+int a;
+float bom1X, bom2X;
+float bom1Y, bom2Y;
 
 /****************************
 プロトタイプ宣言
@@ -129,6 +132,7 @@ int check_overlap(int x, int y);	//範囲外チェック処理
 void lock_block(int x, int y);		//着地したブロックを固定済みに変更する処理
 void check_line(void);				//部ロ億の横一列確認処理
 void conv_block(void);				//ブロックを正位置にする処理
+void move_box(void);				//ボムの範囲移動
 
 /****************************
 ブロック機能：初期化処理
@@ -170,6 +174,13 @@ int Block_Initialize(void)
 	//消したラインの数の初期化
 	DeleteLine = 0;
 
+	a = 0;
+	//ボムをする範囲の左上
+	bom1X = 36.f;
+	bom1Y = 684.f;
+	//ボムをする範囲の右下
+	bom2X = 396.f;
+	bom2Y = 720.f;
 
 	for (i = 0; i < BLOCK_TROUT_SIZE; i++)
 	{
@@ -199,55 +210,68 @@ int Block_Initialize(void)
 ****************************/
 void Block_Update(void)
 {
-	//ブロックの移動処理
-	move_block();
-	check_line();
-
-	//ブロックのストック
-	if ((GetButtonDown(XINPUT_BUTTON_LEFT_SHOULDER) == TRUE) ||
-		(GetButtonDown(XINPUT_BUTTON_RIGHT_SHOULDER) == TRUE))
+	if (GetButtonDown(XINPUT_BUTTON_LEFT_SHOULDER) == TRUE)
 	{
-		//生成可能であれば
-		if (Generate_Flg == TRUE)
-		{
-			change_block();		//ストック交換処理
-			//ブロックの回転を正位置にする
-		}
-
+		a = 1;
 	}
 
-	//ブロックの回転(反時計回り)
-	if ((GetButtonDown(XINPUT_BUTTON_A) == TRUE) ||
-		(GetButtonDown(XINPUT_BUTTON_Y) == TRUE))
+	if (a == 0)
 	{
-		turn_block(TURN_ANTICROCKWICE);
-	}
-	//ブロックの回転(時計回り)
-	if ((GetButtonDown(XINPUT_BUTTON_B) == TRUE) ||
-		(GetButtonDown(XINPUT_BUTTON_X) == TRUE))
-	{
-		turn_block(TURN_CROCKWICE);
-	}
+		//ブロックの移動処理
+		move_block();
+		check_line();
 
-	//落下処理
-	WaitTime++;			//カウンタの更新
-	if (WaitTime > DROP_SPEED + (Get_Level() * 10))
+		//ブロックのストック
+		if (GetButtonDown(XINPUT_BUTTON_RIGHT_SHOULDER) == TRUE)
+		{
+			//生成可能であれば
+			if (Generate_Flg == TRUE)
+			{
+				change_block();		//ストック交換処理
+				//ブロックの回転を正位置にする
+			}
+
+		}
+
+		//ブロックの回転(反時計回り)
+		if (GetButtonDown(XINPUT_BUTTON_Y) == TRUE)
+		{
+			turn_block(TURN_ANTICROCKWICE);
+		}
+		//ブロックの回転(時計回り)
+		if ((GetButtonDown(XINPUT_BUTTON_B) == TRUE) ||
+			(GetButtonDown(XINPUT_BUTTON_X) == TRUE))
+		{
+			turn_block(TURN_CROCKWICE);
+		}
+		//落下処理
+		WaitTime++;			//カウンタの更新
+		if (WaitTime > DROP_SPEED + (Get_Level() * 10))
+		{
+			if (check_overlap(DropBlock_X, DropBlock_Y + 1) == TRUE)
+			{
+				DropBlock_Y++;
+			}
+			else
+			{
+				//ブロック固定
+				lock_block(DropBlock_X, DropBlock_Y);
+				//ブロックの消去とブロックを下ろす処理
+				check_line();
+				//新しいブロックの生成
+				create_block();
+			}
+			//カウンタの初期化
+			WaitTime = 0;
+		}
+	}
+	else
 	{
-		if (check_overlap(DropBlock_X, DropBlock_Y + 1) == TRUE)
+		move_box();
+		if (GetButtonDown(XINPUT_BUTTON_A) == TRUE)
 		{
-			DropBlock_Y++;
+			a = 0;
 		}
-		else
-		{
-			//ブロック固定
-			lock_block(DropBlock_X, DropBlock_Y);
-			//ブロックの消去とブロックを下ろす処理
-			check_line();
-			//新しいブロックの生成
-			create_block();
-		}
-		//カウンタの初期化
-		WaitTime = 0;
 	}
 }
 
@@ -259,7 +283,10 @@ void Block_Update(void)
 void Block_Draw(void)
 {
 	int i, j;			//ループカウンタ
-
+	if (a == 1)
+	{
+		DrawBoxAA(bom1X, bom1Y, bom2X, bom2Y, 0xff4500, FALSE,5);
+	}
 	//フィールドのブロックを描画
 	for (i = 0; i < FIELD_HEIGHT; i++)
 	{
@@ -293,14 +320,15 @@ void Block_Draw(void)
 		}
 	}
 
-	/*for (i = 0; i < FIELD_HEIGHT; i++)
+	
+	for (i = 0; i < FIELD_HEIGHT; i++)
 	{
 		for (j = 0; j < FIELD_WIDTH; j++)
 		{
 			DrawFormatString(j * BLOCK_SIZE, i * BLOCK_SIZE, 0xFFFFFF, "%d", (Field[i][j]));
 
 		}
-	}*/
+	}
 	//DrawFormatString(500, 500, 0xFFFFFF, "%d", WaitTime);
 }
 
@@ -578,6 +606,7 @@ void lock_block(int x, int y)
 
 	PlaySoundMem(SoundEffect[1], DX_PLAYTYPE_BACK, TRUE);
 }
+
 /****************************
 ブロック機能：ブロックの横一列確認処理
 引数：なし
@@ -620,6 +649,11 @@ void check_line(void)
 
 }
 
+/****************************
+ブロック機能：ブロックの正位置にする
+引数：なし
+戻り値：なし
+****************************/
 void conv_block(void)
 {
 	int i, j, tmp = 0;
@@ -704,4 +738,26 @@ void conv_block(void)
 			break;
 	}
 
+}
+
+/****************************
+ブロック機能：ボムの範囲移動
+引数：なし
+戻り値：なし
+****************************/
+void move_box(void)
+{
+	//範囲上に移動
+	if (GetButtonDown(XINPUT_BUTTON_DPAD_UP))
+	{
+		bom1Y -= 36.f;
+		bom2Y -= 36.f;
+	}
+
+	//範囲下に移動
+	if (GetButtonDown(XINPUT_BUTTON_DPAD_DOWN))
+	{
+		bom1Y += 36.f;
+		bom2Y += 36.f;
+	}
 }
