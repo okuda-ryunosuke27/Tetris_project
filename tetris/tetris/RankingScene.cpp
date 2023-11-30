@@ -342,6 +342,7 @@ void ranking_input_name_draw(void)
 	SetFontSize(30);
 	DrawFormatString(800, 530, 0xFFFFFF, "í");
 	DrawFormatString(850, 530, 0xFFFFFF, "Œˆ");
+	DrawFormatString(900, 530, 0xFFFFFF, "I");
 	
 	SetFontSize(40);
 	DrawFormatString(300, 220, 0xFFFFFF, ">%s", New_Score.name);

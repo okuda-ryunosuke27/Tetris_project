@@ -17,9 +17,10 @@
 #define BLOCK_STOCK_POS_Y		(350)	//ストックされたブロックの座標(Y座標)
 #define DROP_BLOCK_INIT_X		(4)		//落ちてくるブロックの初期X座標
 #define DROP_BLOCK_INIT_Y		(-1)	//落ちてくるブロックの初期Y座標
-#define DROP_SPEED				(60)	//落下時間
+#define DROP_SPEED				(70)	//落下時間
 #define TURN_CROCKWICE			(0)		//時計回りに回転させる
 #define TURN_ANTICROCKWICE		(1)		//反時計回りに回転させる
+#define BOM_SIZE				(40)	//
 
 /****************************
 型定義
@@ -121,6 +122,7 @@ float Bom1X, Bom2X;
 float Bom1Y, Bom2Y;
 int Bom;
 int Bomflg;
+int BomImage;
 
 /****************************
 プロトタイプ宣言
@@ -149,6 +151,7 @@ int Block_Initialize(void)
 	//ブロック画像の読込み
 	ret = LoadDivGraph("images/block.png", E_BLOCK_IMAGE_MAX, 10, 1, BLOCK_SIZE,
 		BLOCK_SIZE, BlockImage);
+	BomImage = LoadGraph("images/bom.png");
 
 	//SEの読込み
 	SoundEffect[0] = LoadSoundMem("sounds/SE3.mp3");
@@ -179,7 +182,7 @@ int Block_Initialize(void)
 	a = 0;
 	//ボムをする範囲の左上
 	Bom1X = 36.f;
-	Bom1Y = 684.f;
+	Bom1Y = 648.f;
 	//ボムをする範囲の右下
 	Bom2X = 396.f;
 	Bom2Y = 720.f;
@@ -221,7 +224,7 @@ void Block_Update(void)
 		a = 1;
 	}
 
-	if (a == 0)
+	if (a == 0 && Bom > 0)
 	{
 		//ブロックの移動処理
 		move_block();
@@ -276,7 +279,7 @@ void Block_Update(void)
 		move_box();
 		if (GetButtonDown(XINPUT_BUTTON_B) == TRUE)
 		{
-			//Bom--;
+			Bom--;
 			Bomflg = 1;
 			bom_line();
 		}
@@ -340,6 +343,11 @@ void Block_Draw(void)
 			DrawFormatString(j * BLOCK_SIZE, i * BLOCK_SIZE, 0xFFFFFF, "%d", (Field[i][j]));
 
 		}
+	}
+
+	for (i = 0; i < Bom; i++)
+	{
+		DrawGraph((700 + i * BOM_SIZE),0, BomImage, TRUE);
 	}
 	//DrawFormatString(500, 500, 0xFFFFFF, "%d", WaitTime);
 }
@@ -782,9 +790,10 @@ void move_box(void)
 void bom_line(void)
 {
 	int i, j, k;
+	int count = 0;
 	int height = 0;
 
-	height = Bom1Y / 36;
+	height = ((int)Bom1Y / 36) + 1;
 
 	for (i = 0; i < FIELD_HEIGHT - 1; i++)
 	{
@@ -792,18 +801,28 @@ void bom_line(void)
 		{
 			if (Bomflg == TRUE)
 			{
-				Field[height][j] = E_BLOCK_EMPTY;
+				break;
+			}
+		}
+
+		if (Bomflg == TRUE)
+		{
+			//1段下げる
+			for (k = height; k > 0; k--)
+			{
+				for (j = 1; j < FIELD_WIDTH; j++)
+				{
+					Field[k][j] = Field[k - 1][j];
+				}
+				
+			}
+			count++;
+			if (count >= 2)
+			{
+				a = 0;
+				Bomflg = 0;
 			}
 		}
 
 	}
-	//1段下げる
-	for (k = i; k > 0; k--)
-	{
-		for (j = 1; j < FIELD_WIDTH; j++)
-		{
-			Field[k][j] = Field[k - 1][j];
-		}
-	}
-
 }
