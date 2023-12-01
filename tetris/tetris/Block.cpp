@@ -219,17 +219,18 @@ int Block_Initialize(void)
 ****************************/
 void Block_Update(void)
 {
-	if (GetButtonDown(XINPUT_BUTTON_LEFT_SHOULDER) == TRUE)
-	{
-		a = 1;
-	}
+	
 
-	if (a == 0 && Bom > 0)
+	if (a == 0)
 	{
 		//ブロックの移動処理
 		move_block();
 		check_line();
 
+		if (GetButtonDown(XINPUT_BUTTON_LEFT_SHOULDER) == TRUE && Bom > 0)
+		{
+			a = 1;
+		}
 		//ブロックのストック
 		if (GetButtonDown(XINPUT_BUTTON_RIGHT_SHOULDER) == TRUE)
 		{
@@ -347,7 +348,7 @@ void Block_Draw(void)
 
 	for (i = 0; i < Bom; i++)
 	{
-		DrawGraph((700 + i * BOM_SIZE),0, BomImage, TRUE);
+		DrawGraph((650 + i * BOM_SIZE),672, BomImage, TRUE);
 	}
 	//DrawFormatString(500, 500, 0xFFFFFF, "%d", WaitTime);
 }
@@ -370,6 +371,11 @@ int Get_GenerateFlg(void)
 int Get_Line(void)
 {
 	return DeleteLine;
+}
+
+void Set_Bom(int bom)
+{
+	Bom += bom;
 }
 
 /****************************

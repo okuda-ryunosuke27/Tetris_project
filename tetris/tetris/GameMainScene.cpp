@@ -94,18 +94,22 @@ void GameMainScene_Update(void)
 	else if (Score <= LevelScore[1])
 	{
 		Level = 2;
+		Set_Bom(1);
 	}
 	else if (Score <= LevelScore[2])
 	{
 		Level = 3;
+		Set_Bom(1);
 	}
 	else if (Score <= LevelScore[3])
 	{
 		Level = 4;
+		Set_Bom(1);
 	}
 	else
 	{
 		Level = 5;
+		Set_Bom(1);
 	}
 	
 	
