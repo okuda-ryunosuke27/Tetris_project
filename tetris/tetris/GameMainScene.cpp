@@ -19,7 +19,7 @@ int BackGround_sound;		//BGM
 int GameOver_sound;			//ゲームオーバーSE
 int Score;					//スコア
 int Level;
-int GM_Bomflag;
+bool GM_Bomflag;
 int LevelScore[4] = { 500,1500,3000,5000 };
 
 /****************************
@@ -42,8 +42,7 @@ int GameMainScene_Initialize(void)
 	GameOver_sound = LoadSoundMem("sounds/GameOver.mp3");
 
 	Level = 1;
-	GM_Bomflag = 0;
-
+	GM_Bomflag = true;
 
 	//エラーチェック
 	if (BackGround_image == -1)
@@ -92,54 +91,40 @@ void GameMainScene_Update(void)
 	if (Score <= LevelScore[0])
 	{
 		Level = 1;
-		GM_Bomflag = 1;
 	}
 	else if (Score <= LevelScore[1])
 	{
 		Level = 2;
-		if (GM_Bomflag == 1)
+		if (GM_Bomflag == true)
 		{
 			Set_Bom(1);
-			GM_Bomflag = 0;
-		}
-		else if (Score > LevelScore[1])
-		{
-			GM_Bomflag = 1;
+			GM_Bomflag = false;
 		}
 	}
 	else if (Score <= LevelScore[2])
 	{
 		Level = 3;
-		if (GM_Bomflag == 1)
+		if (GM_Bomflag == false)
 		{
 			Set_Bom(1);
-			GM_Bomflag = 0;
-		}
-		else if (Score > LevelScore[2])
-		{
-			GM_Bomflag = 1;
+			GM_Bomflag = true;
 		}
 	}
 	else if (Score <= LevelScore[3])
 	{
 		Level = 4;
-		if (GM_Bomflag == 1)
+		if (GM_Bomflag == true)
 		{
 			Set_Bom(1);
-			GM_Bomflag = 0;
-		}
-		else if (Score > LevelScore[3])
-		{
-			GM_Bomflag = 1;
+			GM_Bomflag = false;
 		}
 	}
 	else
 	{
 		Level = 5;
-		if (GM_Bomflag == 1)
+		if (GM_Bomflag == false)
 		{
 			Set_Bom(1);
-			GM_Bomflag = 0;
 		}
 	}
 	
