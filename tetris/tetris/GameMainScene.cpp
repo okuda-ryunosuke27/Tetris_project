@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "Block.h"
 #include "SceneManager.h"
+#include "InputControl.h"
 
 /****************************
 マクロ定義
@@ -41,6 +42,7 @@ int GameMainScene_Initialize(void)
 	BackGround_sound = LoadSoundMem("sounds/BGM017.ogg");
 	GameOver_sound = LoadSoundMem("sounds/GameOver.mp3");
 
+	Score = 0;
 	Level = 1;
 	GM_Bomflag = true;
 
@@ -74,6 +76,11 @@ void GameMainScene_Update(void)
 
 	//ブロック機能の更新
 	Block_Update();
+
+	if (GetButtonDown(XINPUT_BUTTON_START) == TRUE)
+	{
+		Change_Scene(E_RANKING);
+	}
 
 	delete_line = Get_Line();
 
@@ -125,6 +132,7 @@ void GameMainScene_Update(void)
 		if (GM_Bomflag == false)
 		{
 			Set_Bom(1);
+			GM_Bomflag == true;
 		}
 	}
 	
@@ -166,7 +174,7 @@ void GameMainScene_Draw(void)
 /****************************
 ゲームメイン画面：スコア取得処理
 引　数：なし
-戻り値：なし
+戻り値：あり
 ****************************/
 int Get_Score(void)
 {

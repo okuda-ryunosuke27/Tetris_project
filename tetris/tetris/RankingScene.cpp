@@ -119,6 +119,8 @@ void RankingScene_Draw(void)
 			}
 			break;
 	}
+
+	DrawFormatString(0, 0, 0xFFFFFF, "%d", Cursor.x);
 }
 
 /****************************
@@ -253,12 +255,20 @@ void ranking_input_name(void)
 		{
 			Cursor.x--;
 		}
+		else 
+		{
+			Cursor.x = 12;
+		}
 	}
 	if (GetButtonDown(XINPUT_BUTTON_DPAD_RIGHT) == TRUE)
 	{
 		if (Cursor.x < 12)
 		{
 			Cursor.x++;
+		}
+		else 
+		{
+			Cursor.x = 0;
 		}
 	}
 	if (GetButtonDown(XINPUT_BUTTON_DPAD_UP) == TRUE)
@@ -267,12 +277,20 @@ void ranking_input_name(void)
 		{
 			Cursor.y--;
 		}
+		else
+		{
+			Cursor.y = 4;
+		}
 	}
 	if (GetButtonDown(XINPUT_BUTTON_DPAD_DOWN) == TRUE)
 	{
 		if (Cursor.y < 4)
 		{
 			Cursor.y++;
+		}
+		else
+		{
+			Cursor.y = 0;
 		}
 	}
 
