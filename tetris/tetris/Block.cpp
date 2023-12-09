@@ -821,7 +821,7 @@ void bom_line(void)
 		if (Bomflg == TRUE)
 		{
 			//1’i‰º‚°‚é
-			for (k = height; k > 0; k--)
+			for (k = height; k >= 0; k--)
 			{
 				for (j = 1; j < FIELD_WIDTH; j++)
 				{
