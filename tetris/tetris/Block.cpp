@@ -661,11 +661,18 @@ void check_line(void)
 			//カウントを増加
 			DeleteLine++;
 			//1段下げる
-			for (k = i; k > 0; k--)
+			for (k = i; k >= 0; k--)
 			{
 				for (j = 1; j < FIELD_WIDTH; j++)
 				{
-					Field[k][j] = Field[k - 1][j];
+					if (k == 0)
+					{
+						Field[k][j] = E_BLOCK_EMPTY;
+					}
+					else 
+					{
+						Field[k][j] = Field[k - 1][j];
+					}
 				}
 			}
 
@@ -818,7 +825,14 @@ void bom_line(void)
 			{
 				for (j = 1; j < FIELD_WIDTH; j++)
 				{
-					Field[k][j] = Field[k - 1][j];
+					if (k == 0)
+					{
+						Field[k][j] = E_BLOCK_EMPTY;
+					}
+					else
+					{
+						Field[k][j] = Field[k - 1][j];
+					}
 				}
 				
 			}
