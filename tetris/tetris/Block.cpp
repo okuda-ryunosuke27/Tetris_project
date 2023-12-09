@@ -663,7 +663,7 @@ void check_line(void)
 			//1’i‰º‚°‚é
 			for (k = i; k >= 0; k--)
 			{
-				for (j = 1; j < FIELD_WIDTH; j++)
+				for (j = 1; j < FIELD_WIDTH - 1; j++)
 				{
 					if (k == 0)
 					{
@@ -810,7 +810,7 @@ void bom_line(void)
 
 	for (i = 0; i < FIELD_HEIGHT - 1; i++)
 	{
-		for (j = 1; j < FIELD_WIDTH - 1; j++)
+		for (j = 1; j < FIELD_WIDTH; j++)
 		{
 			if (Bomflg == TRUE)
 			{
@@ -823,7 +823,7 @@ void bom_line(void)
 			//1’i‰º‚°‚é
 			for (k = height; k >= 0; k--)
 			{
-				for (j = 1; j < FIELD_WIDTH; j++)
+				for (j = 1; j < FIELD_WIDTH - 1; j++)
 				{
 					if (k == 0)
 					{
