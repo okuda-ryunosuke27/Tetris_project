@@ -641,7 +641,7 @@ void lock_block(int x, int y)
 				for (k = 0; k < r; k++)
 				{
 					// ‰Î‰Ô‚ð¶¬
-					Create_Spark(x + j * BLOCK_SIZE, y + i * BLOCK_SIZE);
+					Create_Spark((x + j) * BLOCK_SIZE, (y + i) * BLOCK_SIZE);
 				}
 			}
 		}
