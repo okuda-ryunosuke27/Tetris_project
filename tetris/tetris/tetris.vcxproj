@@ -137,6 +137,7 @@
     <ClCompile Include="FreamControl.cpp" />
     <ClCompile Include="GameMainScene.cpp" />
     <ClCompile Include="InputControl.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="RankingScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="FreamControl.h" />
     <ClInclude Include="GameMainScene.h" />
     <ClInclude Include="InputControl.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="RanklingScene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="TitleScene.h" />

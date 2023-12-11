@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "InputControl.h"
 #include "GameMainScene.h"
+#include "Particle.h"
 
 /****************************
 マクロ定義
@@ -137,7 +138,8 @@ void lock_block(int x, int y);		//着地したブロックを固定済みに変更する処理
 void check_line(void);				//ブロックの横一列確認処理
 void conv_block(void);				//ブロックを正位置にする処理
 void move_box(void);				//ボムの範囲移動
-void bom_line(void);
+void bom_line(void);				//ボムで消したブロックを下に下げる処理
+
 /****************************
 ブロック機能：初期化処理
 引数		：なし
@@ -169,6 +171,9 @@ int Block_Initialize(void)
 	//ブロック生成
 	create_block();
 	create_block();
+
+	//パーティクル初期化
+	Particle_Initialize();
 
 	//待機時間の初期化
 	WaitTime = 0;
@@ -274,6 +279,7 @@ void Block_Update(void)
 			//カウンタの初期化
 			WaitTime = 0;
 		}
+		Move_Spark();
 	}
 	else
 	{
@@ -303,6 +309,9 @@ void Block_Draw(void)
 	{
 		DrawBoxAA(Bom1X, Bom1Y, Bom2X, Bom2Y, 0xff4500, FALSE,5);
 	}
+	
+	Particle_Draw();
+	
 	//フィールドのブロックを描画
 	for (i = 0; i < FIELD_HEIGHT; i++)
 	{
@@ -350,6 +359,8 @@ void Block_Draw(void)
 	{
 		DrawGraph((650 + i * BOM_SIZE),672, BomImage, TRUE);
 	}
+
+	
 	//DrawFormatString(500, 500, 0xFFFFFF, "%d", WaitTime);
 }
 
@@ -617,8 +628,8 @@ int check_overlap(int x, int y)
 ****************************/
 void lock_block(int x, int y)
 {
-	int i, j;		//ループカウンタ
-
+	int i, j, k, r;		//ループカウンタ
+	r = 20;
 	for ( i = 0; i < BLOCK_TROUT_SIZE; i++)
 	{
 		for ( j = 0; j < BLOCK_TROUT_SIZE; j++)
@@ -626,11 +637,19 @@ void lock_block(int x, int y)
 			if (DropBlock[i][j] != E_BLOCK_EMPTY)
 			{
 				Field[y + i][x + j] = DropBlock[i][j];
+				
+				for (k = 0; k < r; k++)
+				{
+					// 火花を生成
+					Create_Spark(x + j * BLOCK_SIZE, y + i * BLOCK_SIZE);
+				}
 			}
 		}
 	}
 
 	PlaySoundMem(SoundEffect[1], DX_PLAYTYPE_BACK, TRUE);
+	// 火花を出す数をセット
+	
 }
 
 /****************************
