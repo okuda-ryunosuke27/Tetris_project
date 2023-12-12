@@ -15,15 +15,18 @@ typedef struct
 
 SPARK Spark[MAX_SPARK];	// 火花データ
 
+int timer;
+
 
 void Particle_Initialize(void)
 {
-
 	// 火花の存在を初期化する
 	for (int i = 0; i < MAX_SPARK; i++)
 	{
 		Spark[i].Valid = 0;
 	}
+
+	timer = 3500;
 }
 
 void Particle_Draw(void)
@@ -35,6 +38,7 @@ void Particle_Draw(void)
 		if (Spark[j].Valid == 1)
 		{
 			DrawCircle(Spark[j].X / 100, Spark[j].Y / 100, 5, GetColor(Spark[j].Bright, Spark[j].Bright, Spark[j].Bright), TRUE);
+			//DrawCircle(Spark[j].X / 100, Spark[j].Y / 100, 5, 0xFFFFFF, TRUE);
 		}
 	}
 }
@@ -67,7 +71,7 @@ void Create_Spark(int x, int y)
 		// 火花の重さをセット
 		Spark[i].G = 0;
 
-		// 火花の明るさセット
+		 //火花の明るさセット
 		Spark[i].Bright = 255;
 
 		// 火花データを使用中にセット
@@ -96,13 +100,26 @@ void Move_Spark(void)
 		// 移動力を変更
 		Spark[i].Sy += Spark[i].G;
 
-		// 火花の明るさを下げる
+		//timer--;
+
+		//if (timer < 0)
+		//{
+		//	Spark[i].Valid = 0;
+		//	//timer = 120;
+		//}
+
+		 //火花の明るさを下げる
 		Spark[i].Bright -= 2;
 
 		// 火花の明るさが０以下になったら火花データを無効にする
-		if (Spark[i].Bright < 0)
+		if (Spark[i].Bright < 75)
 		{
 			Spark[i].Valid = 0;
 		}
 	}
+}
+
+void Set_Timer(int time)
+{
+	timer = time;
 }

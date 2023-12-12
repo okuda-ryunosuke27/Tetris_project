@@ -21,7 +21,8 @@
 #define DROP_SPEED				(70)	//落下時間
 #define TURN_CROCKWICE			(0)		//時計回りに回転させる
 #define TURN_ANTICROCKWICE		(1)		//反時計回りに回転させる
-#define BOM_SIZE				(40)	//
+#define BOM_SIZE				(40)	//ボムのサイズ
+#define BLOCK_HALFSIZE			(13)	//ブロックの半分のサイズ
 
 /****************************
 型定義
@@ -118,11 +119,11 @@ int Stock_Flg;												//ストックフラグ
 int Generate_Flg;											//生成フラグ
 int DeleteLine;												//消したラインの数
 int SoundEffect[3];											//SE
-int a;
+int BomRange_Flg;
 float Bom1X, Bom2X;
 float Bom1Y, Bom2Y;
 int Bom;
-int Bomflg;
+int Bom_Flg;
 int BomImage;
 
 /****************************
@@ -184,7 +185,8 @@ int Block_Initialize(void)
 	//消したラインの数の初期化
 	DeleteLine = 0;
 
-	a = 0;
+	//ボムの範囲のフラグ
+	BomRange_Flg = 0;
 	//ボムをする範囲の左上
 	Bom1X = 36.f;
 	Bom1Y = 648.f;
@@ -194,8 +196,9 @@ int Block_Initialize(void)
 	//ボムの所持数
 	Bom = 3;
 	//ボムのフラグ
-	Bomflg = 0;
+	Bom_Flg = 0;
 
+	//ストックの中身を0に初期化する。
 	for (i = 0; i < BLOCK_TROUT_SIZE; i++)
 	{
 		for (j = 0; j < BLOCK_TROUT_SIZE; j++)
@@ -225,8 +228,9 @@ int Block_Initialize(void)
 void Block_Update(void)
 {
 	
-
-	if (a == 0)
+	//LBが押されてなかったらブロックの動き
+	//ブロックを回転する処理をする
+	if (BomRange_Flg == 0)
 	{
 		//ブロックの移動処理
 		move_block();
@@ -234,7 +238,7 @@ void Block_Update(void)
 
 		if (GetButtonDown(XINPUT_BUTTON_LEFT_SHOULDER) == TRUE && Bom > 0)
 		{
-			a = 1;
+			BomRange_Flg = 1;
 		}
 		//ブロックのストック
 		if (GetButtonDown(XINPUT_BUTTON_RIGHT_SHOULDER) == TRUE)
@@ -243,7 +247,6 @@ void Block_Update(void)
 			if (Generate_Flg == TRUE)
 			{
 				change_block();		//ストック交換処理
-				//ブロックの回転を正位置にする
 			}
 
 		}
@@ -281,18 +284,21 @@ void Block_Update(void)
 		}
 		Move_Spark();
 	}
-	else
+	else//LBを押されている間はここの中身を処理する。
 	{
+		//ボム範囲を動かす処理
 		move_box();
+		
+		//Bボタンをしたら爆発する
 		if (GetButtonDown(XINPUT_BUTTON_B) == TRUE)
 		{
-			Bom--;
-			Bomflg = 1;
-			bom_line();
+			Bom--;					//ボムの個数を減らす
+			Bom_Flg = 1;			//二段下げるために作ったフラグ
+			bom_line();				//二列下げる処理する。
 		}
 		if (GetButtonDown(XINPUT_BUTTON_A) == TRUE)
 		{
-			a = 0;
+			BomRange_Flg = 0;		//ボムの処理を解除する
 		}
 	}
 }
@@ -305,11 +311,14 @@ void Block_Update(void)
 void Block_Draw(void)
 {
 	int i, j;			//ループカウンタ
-	if (a == 1)
+	
+	//ボムの範囲を描画
+	if (BomRange_Flg == 1)
 	{
 		DrawBoxAA(Bom1X, Bom1Y, Bom2X, Bom2Y, 0xff4500, FALSE,5);
 	}
 	
+	//パーティクルを描画
 	Particle_Draw();
 	
 	//フィールドのブロックを描画
@@ -355,6 +364,7 @@ void Block_Draw(void)
 		}
 	}*/
 
+	//ボムの個数を描画
 	for (i = 0; i < Bom; i++)
 	{
 		DrawGraph((650 + i * BOM_SIZE),672, BomImage, TRUE);
@@ -641,15 +651,15 @@ void lock_block(int x, int y)
 				for (k = 0; k < r; k++)
 				{
 					// 火花を生成
-					Create_Spark((x + j) * BLOCK_SIZE, (y + i) * BLOCK_SIZE);
+					Create_Spark((x + j) * BLOCK_SIZE + BLOCK_HALFSIZE, (y + i) * BLOCK_SIZE + BLOCK_HALFSIZE);
 				}
 			}
 		}
 	}
 
 	PlaySoundMem(SoundEffect[1], DX_PLAYTYPE_BACK, TRUE);
-	// 火花を出す数をセット
 	
+	//Set_Timer(3500);
 }
 
 /****************************
@@ -831,13 +841,13 @@ void bom_line(void)
 	{
 		for (j = 1; j < FIELD_WIDTH; j++)
 		{
-			if (Bomflg == TRUE)
+			if (Bom_Flg == TRUE)
 			{
 				break;
 			}
 		}
 
-		if (Bomflg == TRUE)
+		if (Bom_Flg == TRUE)
 		{
 			//1段下げる
 			for (k = height; k >= 0; k--)
@@ -858,8 +868,8 @@ void bom_line(void)
 			count++;
 			if (count >= 2)
 			{
-				a = 0;
-				Bomflg = 0;
+				BomRange_Flg = 0;
+				Bom_Flg = 0;
 			}
 		}
 

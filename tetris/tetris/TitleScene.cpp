@@ -23,6 +23,7 @@ enum
 ****************************/
 int cursor_number;
 int sounds[E_SOUND_MAX];
+int TitleImage;
 
 /****************************
 プロトタイプ宣言
@@ -39,6 +40,7 @@ int TitleScene_Initialize(void)
 
 	cursor_number = 0;
 
+	//TitleImage = LoadGraph("images/title.bmp");
 	sounds[E_TITLE_BGM] = LoadSoundMem("sounds/BGM041.ogg");
 	sounds[E_TITLE_SE_CURSOR] = LoadSoundMem("sounds/SE1.mp3");
 	sounds[E_TITLE_SE_SELECT] = LoadSoundMem("sounds/SE2.mp3");
@@ -126,6 +128,7 @@ void TitleScene_Update(void)
 ****************************/
 void TitleScene_Draw(void)
 {
+	//DrawGraph(0, 0, TitleImage, TRUE);
 	SetFontSize(50);
 	DrawString(100, 100, "テトリス", 0xFFFFFF);
 	DrawString(300, 300, "スタート", 0xFFFFFF);
