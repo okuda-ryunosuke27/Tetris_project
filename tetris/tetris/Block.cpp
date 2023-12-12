@@ -232,6 +232,10 @@ void Block_Update(void)
 	//ブロックを回転する処理をする
 	if (BomRange_Flg == 0)
 	{
+		if (Get_Flag() == 1)
+		{
+			Move_Spark();
+		}
 		//ブロックの移動処理
 		move_block();
 		check_line();
@@ -282,7 +286,7 @@ void Block_Update(void)
 			//カウンタの初期化
 			WaitTime = 0;
 		}
-		Move_Spark();
+		
 	}
 	else//LBを押されている間はここの中身を処理する。
 	{
@@ -658,8 +662,6 @@ void lock_block(int x, int y)
 	}
 
 	PlaySoundMem(SoundEffect[1], DX_PLAYTYPE_BACK, TRUE);
-	
-	//Set_Timer(3500);
 }
 
 /****************************

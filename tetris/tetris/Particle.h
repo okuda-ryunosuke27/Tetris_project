@@ -9,4 +9,4 @@ void Particle_Draw(void);
 void Create_Spark(int x, int y);
 void Move_Spark(void);
 
-void Set_Timer(int time);
+int Get_Flag(void);
