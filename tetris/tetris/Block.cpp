@@ -345,15 +345,15 @@ void Block_Draw(void)
 		}
 	}
 
-	
-	for (i = 0; i < FIELD_HEIGHT; i++)
+	//フィールドにブロックが固定されてるか確認の描画
+	/*for (i = 0; i < FIELD_HEIGHT; i++)
 	{
 		for (j = 0; j < FIELD_WIDTH; j++)
 		{
 			DrawFormatString(j * BLOCK_SIZE, i * BLOCK_SIZE, 0xFFFFFF, "%d", (Field[i][j]));
 
 		}
-	}
+	}*/
 
 	for (i = 0; i < Bom; i++)
 	{
