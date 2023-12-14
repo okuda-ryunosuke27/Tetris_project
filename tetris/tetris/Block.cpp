@@ -232,10 +232,6 @@ void Block_Update(void)
 	//ブロックを回転する処理をする
 	if (BomRange_Flg == 0)
 	{
-		if (Get_Flag() == 1)
-		{
-			Move_Spark();
-		}
 		//ブロックの移動処理
 		move_block();
 		check_line();
@@ -280,13 +276,19 @@ void Block_Update(void)
 				lock_block(DropBlock_X, DropBlock_Y);
 				//ブロックの消去とブロックを下ろす処理
 				check_line();
-				//新しいブロックの生成
-				create_block();
+				if (Get_Flag() == 1)
+				{
+					Move_Spark();
+				}
+				else 
+				{
+					//新しいブロックの生成
+					create_block();
+				}
 			}
 			//カウンタの初期化
 			WaitTime = 0;
 		}
-		
 	}
 	else//LBを押されている間はここの中身を処理する。
 	{
@@ -643,7 +645,7 @@ int check_overlap(int x, int y)
 void lock_block(int x, int y)
 {
 	int i, j, k, r;		//ループカウンタ
-	r = 20;
+	r = 10;
 	for ( i = 0; i < BLOCK_TROUT_SIZE; i++)
 	{
 		for ( j = 0; j < BLOCK_TROUT_SIZE; j++)

@@ -3,6 +3,7 @@
 #include "Block.h"
 #include "SceneManager.h"
 #include "InputControl.h"
+#include "Particle.h"
 
 /****************************
 マクロ定義
@@ -73,6 +74,8 @@ void GameMainScene_Update(void)
 	int delete_line;
 	//BGMの再生
 	PlaySoundMem(BackGround_sound, DX_PLAYTYPE_LOOP, FALSE);
+
+	
 
 	//ブロック機能の更新
 	Block_Update();
@@ -157,6 +160,8 @@ void GameMainScene_Draw(void)
 {
 	//背景の描画
 	DrawGraph(0, 0, BackGround_image, TRUE);
+
+	
 
 	//ブロック描画
 	Block_Draw();

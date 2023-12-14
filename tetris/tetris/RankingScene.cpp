@@ -119,8 +119,6 @@ void RankingScene_Draw(void)
 			}
 			break;
 	}
-
-	DrawFormatString(0, 0, 0xFFFFFF, "%d", Cursor.x);
 }
 
 /****************************
@@ -318,6 +316,10 @@ void ranking_input_name(void)
 			{
 				name_num--;
 				New_Score.name[name_num] = '\0';
+				if (name_num < 0)
+				{
+					name_num = 0;
+				}
 			}
 			else//10ˆÈã
 			{
@@ -326,11 +328,11 @@ void ranking_input_name(void)
 			}
 			
 		}
-	}
-	if (GetButtonDown(XINPUT_BUTTON_START) == TRUE)
-	{
-		DispMode = RANKING_DISP_MODE;
-		ranking_sort();
+		if (name_num >= 11)
+		{
+			DispMode = RANKING_DISP_MODE;
+			ranking_sort();
+		}
 	}
 }
 
