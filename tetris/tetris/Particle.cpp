@@ -111,21 +111,21 @@ void Move_Spark(void)
 		 //‰Î‰Ô‚Ì–¾‚é‚³‚ğ‰º‚°‚é
 		Spark[i].Bright -= 2;
 		
-		if (Spark[i].Bright == 0)
+		/*if (Spark[i].Bright == 0)
 		{
 			Spark[i].Valid = 0;
 			flag = 0;
-		}
+		}*/
 
 		// ‰Î‰Ô‚Ì–¾‚é‚³‚ª‚OˆÈ‰º‚É‚È‚Á‚½‚ç‰Î‰Ôƒf[ƒ^‚ğ–³Œø‚É‚·‚é
-		/*if (timer <= 0)
+		if (timer <= 0)
 		{
 			Spark[i].Valid = 0;
 			flag = 0;
 			timer = 150;
-		}*/
+		}
 	}
-	//timer--;
+	timer--;
 }
 
 int Get_Flag(void)
