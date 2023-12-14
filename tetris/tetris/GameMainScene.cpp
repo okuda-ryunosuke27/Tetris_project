@@ -161,8 +161,6 @@ void GameMainScene_Draw(void)
 	//”wŒi‚Ì•`‰æ
 	DrawGraph(0, 0, BackGround_image, TRUE);
 
-	
-
 	//ƒuƒƒbƒN•`‰æ
 	Block_Draw();
 	SetFontSize(100);

@@ -228,14 +228,14 @@ int Block_Initialize(void)
 void Block_Update(void)
 {
 	
+
 	//LBが押されてなかったらブロックの動き
 	//ブロックを回転する処理をする
 	if (BomRange_Flg == 0)
 	{
-		/*if (Get_Flag() == 1)
-		{
-			Move_Spark();
-		}*/
+		
+		Move_Spark();
+		
 		//ブロックの移動処理
 		move_block();
 		check_line();
@@ -280,12 +280,8 @@ void Block_Update(void)
 				lock_block(DropBlock_X, DropBlock_Y);
 				//ブロックの消去とブロックを下ろす処理
 				check_line();
-				
-			/*	if(Get_Flag() == FALSE)
-				{*/
-					//新しいブロックの生成
-					create_block();
-				//}
+				//新しいブロックの生成
+				create_block();
 			}
 			//カウンタの初期化
 			WaitTime = 0;

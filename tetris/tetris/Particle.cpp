@@ -16,7 +16,6 @@ typedef struct
 SPARK Spark[MAX_SPARK];	// 火花データ
 
 int flag;
-int timer;
 
 void Particle_Initialize(void)
 {
@@ -26,13 +25,26 @@ void Particle_Initialize(void)
 		Spark[i].Valid = 0;
 	}
 	flag = 0;
-	timer = 150;
 }
 
 void Particle_Draw(void)
 {
-	DrawFormatString(300, 0, 0xFFFFFF, "%d", timer);
+
+	SetFontSize(10);
+	const int mod = 40;
+	int x = -1;
+	for (int i = 0; i < MAX_SPARK; i++)
+	{
+		if (i % mod == 0)
+		{
+			x++;
+		}
+		DrawFormatString(450 + (x * 26), ((i % mod * 26) + 10), 0xFFFFFF, "%d", Spark[i].Valid);
+		
+	}
 	
+
+	SetFontSize(16);
 	// 火花を描画する
 	for (int j = 0; j < MAX_SPARK; j++)
 	{
@@ -111,21 +123,16 @@ void Move_Spark(void)
 		 //火花の明るさを下げる
 		Spark[i].Bright -= 2;
 		
-		/*if (Spark[i].Bright == 0)
-		{
-			Spark[i].Valid = 0;
-			flag = 0;
-		}*/
 
 		// 火花の明るさが０以下になったら火花データを無効にする
-		if (timer <= 0)
+		if (Spark[i].Bright == 0)
 		{
 			Spark[i].Valid = 0;
 			flag = 0;
-			timer = 150;
+			//パーティクル初期化
+			Particle_Initialize();
 		}
 	}
-	timer--;
 }
 
 int Get_Flag(void)
