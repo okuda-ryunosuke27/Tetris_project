@@ -38,7 +38,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	ChangeWindowMode(TRUE);
 
 	//ウィンドサイズの決定
-	SetGraphMode(1500, SCREEN_HEIGHT, SCREEN_COLORBIT);
+	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_COLORBIT);
 
 	//Dxライブラリの初期化処理
 	if (DxLib_Init() == D_ERRPR)

@@ -135,7 +135,7 @@ void GameMainScene_Update(void)
 		if (GM_Bomflag == false)
 		{
 			Set_Bom(1);
-			GM_Bomflag == true;
+			GM_Bomflag = true;
 		}
 	}
 	
