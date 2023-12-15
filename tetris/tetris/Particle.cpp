@@ -56,7 +56,18 @@ void Particle_Draw(void)
 			SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, Spark[j].Bright);
 			//DrawCircle(Spark[j].X / 100, Spark[j].Y / 100, 5, GetColor(Spark[j].Bright, Spark[j].Bright, Spark[j].Bright), TRUE);
 			//DrawCircle(Spark[j].X / 100, Spark[j].Y / 100, 5, 0xFFFFFF, TRUE);
-			DrawCircleAA(Spark[j].X / 100.f, Spark[j].Y / 100.f, 5, 3, 0xFFFFFF, TRUE);
+			if (j % 3 == 0)
+			{
+				DrawCircleAA(Spark[j].X / 100.f, Spark[j].Y / 100.f, 10, 3, 0xFFFFFF, TRUE);
+			}
+			else if (j % 3 == 1)
+			{
+				DrawCircleAA(Spark[j].X / 100.f, Spark[j].Y / 100.f, 10, 4, 0xFFFFFF, TRUE);
+			}
+			else
+			{
+				DrawCircleAA(Spark[j].X / 100.f, Spark[j].Y / 100.f, 10, 32, 0xFFFFFF, TRUE);
+			}
 			SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 		}
 	}
