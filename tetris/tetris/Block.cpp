@@ -137,7 +137,7 @@ void turn_block(int clockwise);		//ブロック回転処理
 int check_overlap(int x, int y);	//範囲外チェック処理
 void lock_block(int x, int y);		//着地したブロックを固定済みに変更する処理
 void check_line(void);				//ブロックの横一列確認処理
-void conv_block(void);				//ブロックを正位置にする処理
+void normalpos_block(void);			//ブロックを正位置にする処理
 void move_box(void);				//ボムの範囲移動
 void bom_line(void);				//ボムで消したブロックを下に下げる処理
 
@@ -232,8 +232,7 @@ void Block_Update(void)
 	//LBが押されてなかったらブロックの動き
 	//ブロックを回転する処理をする
 	if (BomRange_Flg == 0)
-	{
-		
+	{	
 		Move_Spark();
 		
 		//ブロックの移動処理
@@ -518,7 +517,7 @@ void change_block(void)
 	int i, j;
 
 	//ブロックを正位置にしている。
-	conv_block();
+	normalpos_block();
 
 	//ストック先が空かどうか確認
 	if (Stock_Flg == TRUE)
@@ -717,7 +716,7 @@ void check_line(void)
 引数：なし
 戻り値：なし
 ****************************/
-void conv_block(void)
+void normalpos_block(void)
 {
 	int i, j, tmp = 0;
 

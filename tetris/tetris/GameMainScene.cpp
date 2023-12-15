@@ -75,8 +75,6 @@ void GameMainScene_Update(void)
 	//BGMの再生
 	PlaySoundMem(BackGround_sound, DX_PLAYTYPE_LOOP, FALSE);
 
-	
-
 	//ブロック機能の更新
 	Block_Update();
 
@@ -139,9 +137,6 @@ void GameMainScene_Update(void)
 		}
 	}
 	
-	
-
-
 	//生成できなくなったら
 	if (Get_GenerateFlg() != TRUE)
 	{
