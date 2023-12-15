@@ -6,8 +6,8 @@
 typedef struct 
 {
 	int Valid;	// このデータが使用中か、フラグ
-	int X, Y;	// 火花の位置
-	int Sx, Sy;	// 火花の移動力
+	float X, Y;	// 火花の位置
+	float Sx, Sy;	// 火花の移動力
 	int G;		// 火花の重さ
 	int Bright;	// 火花の明るさ
 } SPARK;
@@ -55,7 +55,8 @@ void Particle_Draw(void)
 		{
 			SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, Spark[j].Bright);
 			//DrawCircle(Spark[j].X / 100, Spark[j].Y / 100, 5, GetColor(Spark[j].Bright, Spark[j].Bright, Spark[j].Bright), TRUE);
-			DrawCircle(Spark[j].X / 100, Spark[j].Y / 100, 5, 0xFFFFFF, TRUE);
+			//DrawCircle(Spark[j].X / 100, Spark[j].Y / 100, 5, 0xFFFFFF, TRUE);
+			DrawCircleAA(Spark[j].X / 100.f, Spark[j].Y / 100.f, 5, 3, 0xFFFFFF, TRUE);
 			SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 		}
 	}
@@ -80,12 +81,12 @@ void Create_Spark(int x, int y)
 	if (i != MAX_SPARK)
 	{
 		// 火花の位置を設定
-		Spark[i].X = x * 100;
-		Spark[i].Y = y * 100;
+		Spark[i].X = (float)x * 100.f;
+		Spark[i].Y = (float)y * 100.f;
 
 		// 移動力を設定
-		Spark[i].Sx = GetRand(100) - 50;
-		Spark[i].Sy = -GetRand(500) + 1;
+		Spark[i].Sx = (float)GetRand(100) - 50.f;
+		Spark[i].Sy = (float)-GetRand(500) + 1.f;
 
 		// 火花の重さをセット
 		Spark[i].G = 0;
